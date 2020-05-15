@@ -1,0 +1,17 @@
+# -*- coding: utf-8 -*-
+# WakeOnLAN-API
+# Project by https://github.com/rix1337
+
+# Python
+*.pyc
+*.bak
+__pycache__
+
+# Build Tools
+build
+dist
+venv
+*.egg-info
+
+# PyCharm
+.idea
