@@ -23,10 +23,11 @@ def app_container(port):
     @app.route("/wol/<mac>", methods=['POST'])
     def myjd_stop(mac):
         if request.method == 'POST':
-            sent = send_magic_packet(mac)
-            if sent:
+            try:
+                send_magic_packet(mac)
+                print("Waking up: " + mac)
                 return "Success", 200
-            else:
+            except:
                 return "Failed", 400
         else:
             return "Failed", 405
