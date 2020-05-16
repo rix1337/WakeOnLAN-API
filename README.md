@@ -13,5 +13,5 @@ The official docker image is available at [Docker Hub](https://hub.docker.com/r/
 
 # Run
 
-wol_api --port=8080` 
+` wol_api --port=8080` 
 
