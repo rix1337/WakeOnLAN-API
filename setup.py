@@ -17,7 +17,7 @@ with open('requirements.txt') as f:
 
 setuptools.setup(
     name="wol_api",
-    version="0.1.2",
+    version="0.1.3",
     author="rix1337",
     author_email="",
     description="A simple wake on LAN interface that accepts post commands",
