@@ -54,8 +54,6 @@ jobs:
       - name: Upload to PyPI
         run: |
           python -m twine upload ./dist/* -u __token__ -p ${{ secrets.PYPI_TOKEN }}
-       - name: Trigger Docker Image build
-         run: |
-           curl -XPOST -u "${{ secrets.CR_USER }}:${{secrets.CR_PAT}}" -H "Accept: application/vnd.github.v3+json" -H "Content-Type: application/json" https://api.github.com/repos/rix1337/rix1337/docker-wol_api/actions/workflows/BuildImage.yml/dispatches --data '{"ref": "master"}'
-
-
+      - name: Trigger Docker Image build
+        run: |
+          curl -XPOST -u "${{ secrets.CR_USER }}:${{secrets.CR_PAT}}" -H "Accept: application/vnd.github.v3+json" -H "Content-Type: application/json" https://api.github.com/repos/rix1337/rix1337/docker-wol_api/actions/workflows/BuildImage.yml/dispatches --data '{"ref": "master"}'
