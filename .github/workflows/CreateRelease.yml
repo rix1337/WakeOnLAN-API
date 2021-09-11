@@ -1,0 +1,58 @@
+name: Release Artifacts
+
+on: 
+  push:
+    branches:
+      - master
+
+jobs:
+  release:
+    name: Release Artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2     
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}-${{ hashFiles('setup.py') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Install requirements
+        run: |
+          pip install wheel
+          pip install twine
+          pip install -r requirements.txt
+      - name: Compile Linux wheel
+        run: |
+          python setup.py sdist bdist_wheel
+      - name: Get Version
+        run: |
+          version=$(grep -Po 'version="(.+?)"' setup.py) && version="${version:9}" && version="${version::-1}"        
+          echo "::set-output name=version::$version"
+        id: version
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          release_name: v.${{ steps.version.outputs.version }}
+          tag_name: v.${{ steps.version.outputs.version }}
+          body_path: .github/Changelog.md
+      - name: Upload Linux Wheel
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/wol_api-${{ steps.version.outputs.version }}-py3-none-any.whl
+          asset_name: wol_api-${{ steps.version.outputs.version }}-py3-none-any.whl
+          asset_content_type: application/octet-stream
+      - name: Upload to PyPI
+        run: |
+          python -m twine upload ./dist/* -u __token__ -p ${{ secrets.PYPI_TOKEN }}
+
+
