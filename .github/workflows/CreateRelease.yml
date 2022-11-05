@@ -27,7 +27,7 @@ jobs:
         run: |
           python setup.py sdist bdist_wheel
       - name: Get Version
-        run: echo "version=$(grep -Po 'version="(.+?)"' setup.py) && version="${version:9}" && version="${version::-1}" >>$GITHUB_OUTPUT
+        run: echo "version=$(python setup.py --version)" >>$GITHUB_OUTPUT
         id: version
       - name: Create Release
         uses: softprops/action-gh-release@v1
