@@ -30,17 +30,12 @@ jobs:
         run: echo "version=$(python setup.py --version)" >>$GITHUB_OUTPUT
         id: version
       - name: Create Release
-        uses: softprops/action-gh-release@v1
-        id: create_release
+        uses: ncipollo/release-action@v1
         with:
-          draft: false
-          prerelease: false
-          name: v.${{ steps.version.outputs.version }}
-          tag_name: v.${{ steps.version.outputs.version }}
-          body_path: .github/Changelog.md
-          files: |
-            ./dist/wol_api-${{ steps.version.outputs.version }}-py3-none-any.whl
-          fail_on_unmatched_files: true
+          artifacts: "./dist/*.whl"
+          artifactErrorsFailBuild: true
+          bodyFile: ".github/Changelog.md"
+          tag: v.${{ steps.version.outputs.version }}
       - name: Upload to PyPI
         run: |
           python -m twine upload ./dist/* -u __token__ -p ${{ secrets.PYPI_TOKEN }}
