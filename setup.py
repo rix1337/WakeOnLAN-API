@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 # WakeOnLAN-API
-# Project by https://github.com/rix1337
+# Projekt by https://github.com/rix1337
 
 import setuptools
+
+from wol_api.providers.version import get_version
 
 try:
     with open('README.md', encoding='utf-8') as f:
@@ -17,13 +19,13 @@ with open('requirements.txt') as f:
 
 setuptools.setup(
     name="wol_api",
-    version="0.1.6",
+    version=get_version(),
     author="rix1337",
     author_email="",
-    description="A simple wake on LAN interface that accepts post commands",
+    description="Full template for python web projects with Docker, Github Actions, PyPI, and more.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/rix1337/docker-wakeonlan",
+    url="https://github.com/rix1337/WakeOnLAN-API",
     packages=setuptools.find_packages(),
     include_package_data=True,
     install_requires=required,
@@ -35,7 +37,7 @@ setuptools.setup(
     ],
     entry_points={
         'console_scripts': [
-            'wol_api = wol_api.web:main',
+            'wol_api = wol_api.run:main',
         ],
     },
 )

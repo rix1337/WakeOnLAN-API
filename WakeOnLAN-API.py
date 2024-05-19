@@ -1,4 +1,4 @@
-from wol_api import web
+from wol_api import run
 
 if __name__ == '__main__':
-    web.main()
+    run.main()

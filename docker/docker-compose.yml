@@ -1,0 +1,7 @@
+version: '3.3'
+services:
+    wol-api:
+        container_name: 'WakeOnLAN-API'
+        ports:
+            - 'port:8080'
+        image: 'rix1337/docker-wol-api:latest'

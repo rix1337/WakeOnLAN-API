@@ -1,8 +1,2 @@
-# -*- coding: utf-8 -*-
-# WakeOnLAN
-# Project by https://github.com/rix1337
-
-docopt
-flask
-gevent
-wakeonlan
+bottle==0.12.25 # web framework
+wakeonlan==3.1.0 # wake on lan

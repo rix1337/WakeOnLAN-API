@@ -1,3 +1,3 @@
 ### Install / Update:
 
-`pip install -U wol_api`
+`pip install -U wol-api`

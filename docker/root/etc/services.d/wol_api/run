@@ -1,0 +1,3 @@
+#!/usr/bin/with-contenv bash
+
+exec wol_api --port=8080
