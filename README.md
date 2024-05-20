@@ -18,5 +18,6 @@ A simple http interface to send wake on LAN commands. Just send a `POST` to `/FF
 docker run -d \
   --name="WakeOnLAN-API" \
   -p port:8080 \
+  --network host \
   rix1337/docker-wol-api:latest
   ```
