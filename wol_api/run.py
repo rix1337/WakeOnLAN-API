@@ -9,7 +9,7 @@ import sys
 from socketserver import ThreadingMixIn
 from wsgiref.simple_server import make_server, WSGIServer, WSGIRequestHandler
 
-from bottle import Bottle
+from bottle import Bottle, abort, request
 from wakeonlan import send_magic_packet
 
 from wol_api.providers import shared_state, version
@@ -60,22 +60,23 @@ def main():
 
         app = Bottle()
 
-        @app.post("/<mac>")
-        def status(mac):
-            mac = mac.replace("-", ":").strip()
-            # Validate MAC address
-            if not re.match("^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$", mac):
-                print("Invalid MAC address: " + mac)
-                return "Invalid MAC address", 400
-
-            # Wake up device
+        def wake_device(mac):
             try:
-                print("Waking up: " + mac)
                 send_magic_packet(mac)
-                return "Success", 200
+                message = f"Request type: {request.method}, Path: {request.path} | Woke up: {mac}"
+                print(message)
+                return message
             except Exception as e:
-                print(f"Failed to wake up device: {e}")
-                return "Failed", 500
+                message = f"Request type: {request.method}, Path: {request.path} | Error: {str(e)}"
+                print(message)
+                abort(500, message)
+
+        @app.post("/<mac>")
+        @app.get("/<mac>")
+        @app.post("/wol/<mac>")
+        @app.get("/wol/<mac>")
+        def status(mac):
+            return wake_device(mac)
 
         print(f"[WakeOnLAN-API] Running at http://127.0.0.1:{shared_state.values['port']}")
         try:
