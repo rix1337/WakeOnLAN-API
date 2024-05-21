@@ -22,7 +22,7 @@ setuptools.setup(
     version=get_version(),
     author="rix1337",
     author_email="",
-    description="Full template for python web projects with Docker, Github Actions, PyPI, and more.",
+    description="A simple http interface to send wake on LAN commands.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/rix1337/WakeOnLAN-API",
