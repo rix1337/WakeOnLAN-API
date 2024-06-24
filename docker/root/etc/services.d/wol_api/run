@@ -1,3 +1,0 @@
-#!/usr/bin/with-contenv bash
-
-exec wol_api --port=$PORT
